@@ -1,0 +1,65 @@
+ #include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+typedef unsigned long long int ull;
+#define w(x) ll x; cin>>x; while(x--)
+#define f(i,n) for(ll i=0;i<(n);++i)
+#define f2(i,a,n) for(ll i=a;i<(n);++i)
+#define fr(i,a,n) for(ll i=n;i>=(a);--i)
+#define pb push_back
+#define mkp(x,y) make_pair(x,y)
+#define fi first
+#define sc second
+#define pi pair<ll,ll>
+#define vt vector<ll>
+#define vin(v) ll ttt; cin>>ttt; v.pb(ttt);
+#define vt2 vector<vector<int>>
+#define endl "\n"
+#define mod 1000000007
+#define inf 1e18
+#define endl "\n"
+double getmaxval(int weight[], int val[], int capacity, int n)
+{
+    vector< pair <double,int> > weight_val;
+    f(i,n)
+    {
+        double x=(double)val[i] / (double)weight[i];
+        weight_val.push_back( make_pair(x,i) ); 
+    }
+    sort(weight_val.begin(),weight_val.end());
+    
+    //fr(i,0,n-1)
+    //cout<<weight_val[i].first<<" "<<weight_val[i].second<<endl;
+    
+    double total_val=0.0;
+    for(int j=n-1;j>=0;j--)
+    {
+        int i=weight_val[j].second;
+        if(capacity-weight[i]>=0)
+        {
+            total_val+=val[i];
+            capacity-=weight[i];
+        }
+        else
+        {
+            double fraction= (double)capacity/(double)weight[i];
+            total_val+=((double)val[i]*fraction);
+            capacity=(int)(capacity-(weight[i]*fraction));
+            break;
+        }
+      //  cout<<total_val<<" "<<capacity<<endl;
+    }
+    return total_val;
+    
+}
+int main()
+{
+	ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    int weight[]={10,20,30};
+    int val[]={60,100,120};
+    int capacity=50;
+    int n=(int)(sizeof(val) / sizeof(val[0]));
+    cout<<getmaxval(weight,val,capacity,n);
+    cout<<endl;
+  return 0;
+}
